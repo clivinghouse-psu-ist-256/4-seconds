@@ -10,6 +10,9 @@
     .big{
         transform: scale(3);
     }
+    .hide{
+        visibility: hidden;
+    }
 </style>
 <body>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -23,23 +26,64 @@
     <div class="container-fluid">
       <a class="navbar-brand" id="navLogo" href="#">4 Seconds</a>
       <span class="navbar-text">
-        <button type="button" class="btn btn-secondary" data-toggle="modal"  data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
-
+        <button type="button" class="btn btn-secondary"   data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scoreModal">
+            Score
+           </button>
       </span>
     </div>
     </nav>
         <div class="position-absolute top-50 start-50 translate-middle">
             <div class="big" style="text-align: center">
-                0.00
+                <div id="counter" >
+                    0.00
+                </div>
             <div class="col">
                 <button type="button" id="start-stop-btn" onclick="changeState(event)" class="btn btn-success btn-lg">Start</button>
             </div>
+           
             </div>
+           
+               
+               
+               
         </div>
     
-    
+        <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="scoreModalLabel">Score</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                    <table class="table" id="scoreTable">
+                        <thead>
+                          <tr>
+                            <th scope="col">Attempt #</th>
+                            <th scope="col">Target Time</th>
+                            <th scope="col">Responded Time</th>
+                            <th scope="col">Off By</th>
+
+
+                        
+                          </tr>
+                        </thead>
+                        <tbody id="scoreTableBody">
+                          
+                        </tbody>
+                      </table>
+          </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
     <div class="modal" id="settingsModal" tabindex="-1" >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
@@ -64,17 +108,19 @@
      
 </body>
 <script>
-    
+    var  timesList = new Array();;
     let seconds = 4;
     let startTime=0;
     let stopTime=0;
+    let tableSpecified = document.querySelector('#scoreTableBody')
     var navLogo = document.querySelector('#navLogo');
-    
+    var counter = document.querySelector('#counter'); 
+    counter.style.visibility = "hidden"
     var inputSeconds = document.querySelector('#inputSeconds');
     inputSeconds.value = seconds
     var settingsModel = new bootstrap.Modal(document.getElementById('settingsModal'), {
         keyboard: false
-      })
+    })
       
     function saveSettings(){
         seconds = inputSeconds.value
@@ -82,17 +128,43 @@
         updateSeconds()
         settingsModel.hide(); 
     }
+    
+    function hideElement(element){
+        
+     element.style.visibility = 'hidden'
+        
+    }
+    function showElement(element){
+        
+        element.style.visibility = ''
+           
+    }
 
     function updateSeconds(){
         navLogo.innerHTML=seconds + " Seconds";
     }
-
+function updateTable(){
+    scoreTableBody.innerHTML = ""
+    let tableString =""
+   
+    for(score of timesList){
+        tableString += "<tr class=\"table-"+score.color+"\"> \n"
+        tableString += "<th >"+score.number+"</th>\n"
+        tableString += "<td >"+score.target+"</td>\n"
+        tableString += "<td >"+score.time+"</td>\n"
+        tableString += "<td>"+score.offTime+"</td>\n"
+        tableString += "</tr>\n"
+    }
+    console.log(tableString)
+    scoreTableBody.innerHTML += tableString;
+}
     function changeState(evt){
         const d = new Date();
         let time = d.getTime()
+       let  resTime;
         const button =  document.querySelector('#start-stop-btn');
         if(button.innerHTML === "Start"){
-           
+            hideElement(counter)
             startTime = time
             
             button.innerHTML  = 'Stop';
@@ -101,10 +173,45 @@
             
         }
         else{
+            stopTime = time
+            resTime = ((stopTime - startTime)/1000).toFixed(2)
+            counter.innerHTML = resTime + " Seconds"
+            let offTime = Math.abs(resTime -Number(seconds)) 
+            let timeColor;
+            if(offTime < .2){
+                timeColor = "primary"
+                document.body.style.backgroundColor = '#0275d8'
+
+            }
+            else{
+                if(offTime < .5){
+                    timeColor="warning"
+                    document.body.style.backgroundColor = '#f0ad4e'
+
+                }
+                else{
+                    timeColor = "danger"
+                     
+                    document.body.style.backgroundColor ='#d9534f'
+                }
+            }
+
+
+            showElement(counter)
+            
+          
             button.innerHTML  = 'Start';
             button.classList.remove("btn-danger")
-    
             button.classList.add("btn-success")
+            timesList.push({
+                "number":timesList.length+1,
+                "target":Number(seconds),
+                "time":resTime,
+                "offTime":offTime,
+                "color":timeColor
+            })
+            updateTable()
+            console.log(timesList)
         }
         
     
