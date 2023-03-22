@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 Seconds Game</title>
+</head>
+<style>
+    .big{
+        transform: scale(3);
+    }
+</style>
+<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+    
+       
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+      <a class="navbar-brand" id="navLogo" href="#">4 Seconds</a>
+      <span class="navbar-text">
+        <button type="button" class="btn btn-secondary" data-toggle="modal"  data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+
+      </span>
+    </div>
+    </nav>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="big" style="text-align: center">
+                0.00
+            <div class="col">
+                <button type="button" id="start-stop-btn" onclick="changeState(event)" class="btn btn-success btn-lg">Start</button>
+            </div>
+            </div>
+        </div>
+    
+    
+    <div class="modal" id="settingsModal" tabindex="-1" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Seconds</span>
+                    <input type="text" id="inputSeconds" class="form-control" name="seconds" placeholder="eg 2" required>
+                    <div class="invalid-feedback">
+                        This needs to be a number
+                     </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" onclick="saveSettings()" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+</body>
+<script>
+    
+    let seconds = 4;
+    let startTime=0;
+    let stopTime=0;
+    var navLogo = document.querySelector('#navLogo');
+    
+    var inputSeconds = document.querySelector('#inputSeconds');
+    inputSeconds.value = seconds
+    var settingsModel = new bootstrap.Modal(document.getElementById('settingsModal'), {
+        keyboard: false
+      })
+      
+    function saveSettings(){
+        seconds = inputSeconds.value
+        
+        updateSeconds()
+        settingsModel.hide(); 
+    }
+
+    function updateSeconds(){
+        navLogo.innerHTML=seconds + " Seconds";
+    }
+
+    function changeState(evt){
+        const d = new Date();
+        let time = d.getTime()
+        const button =  document.querySelector('#start-stop-btn');
+        if(button.innerHTML === "Start"){
+           
+            startTime = time
+            
+            button.innerHTML  = 'Stop';
+            button.classList.remove("btn-success")
+            button.classList.add("btn-danger")
+            
+        }
+        else{
+            button.innerHTML  = 'Start';
+            button.classList.remove("btn-danger")
+    
+            button.classList.add("btn-success")
+        }
+        
+    
+     
+    
+       
+  
+    }
+    
+    </script>   
+</html>
