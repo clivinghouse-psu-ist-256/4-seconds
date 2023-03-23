@@ -20,5 +20,4 @@ jobs:
         with:
           # Upload entire repository
           path: '.'
-      - name: Move to location
-        run: "mv index.html /var/lib/docker/volumes/my-game/_data"
+     
