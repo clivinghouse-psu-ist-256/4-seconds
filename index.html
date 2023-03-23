@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4 Seconds Game</title>
+   
+    <!-- Load c3.css -->
+<link href="c3.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+
 </head>
 <style>
     .big{
@@ -15,9 +22,7 @@
     }
 </style>
 <body>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
     
@@ -26,6 +31,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" id="navLogo" href="#">4 Seconds</a>
       <span class="navbar-text">
+        
         <button type="button" class="btn btn-secondary"   data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scoreModal">
             Score
@@ -33,6 +39,13 @@
       </span>
     </div>
     </nav>
+    <div class="position-absolute bottom-0 start-50 translate-middle-x">
+
+        <button type="button" class="btn btn-danger mb-2" onclick="confirmPrompt('Reset Game?','resetGame()')">
+            Reset Score
+           </button>
+    </div>
+
         <div class="position-absolute top-50 start-50 translate-middle">
             <div class="big" style="text-align: center">
                 <div id="counter" >
@@ -48,7 +61,26 @@
                
                
         </div>
-    
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmModalLabel">Confirm</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+          
+               <div id="confirmModalMessage"></div>
+          
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                  <button type="button" id="confirmModalYes" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-scrollable">
               <div class="modal-content">
@@ -57,6 +89,47 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="accordion" id="scoreStatsAccordion">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                              Stats
+                            </button>
+                          </h2>
+                          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#scoreStatsAccordion">
+                            <div class="accordion-body">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">
+                                            Total Attempts
+                                        </th>
+                                        <th scope="col">
+                                            Min Off By
+                                        </th>
+                                        <th scope="col">
+                                            Max Off By
+                                        </th>
+                                        <th scope="col">
+                                            Average Off By
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th id="totalAttempts" scope="row">0</th>
+                                        <td id="minOff" >0</td>
+                                        <td id="maxOff" >0</td>
+                                        <td id="avgOff" >0</td>
+                                      </tr>
+                                     
+                                    </tbody>
+                                  </table>
+                                  <div id="chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                     <table class="table" id="scoreTable">
                         <thead>
@@ -74,7 +147,9 @@
                           
                         </tbody>
                       </table>
+                      
           </div>
+          
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,7 +180,12 @@
           </div>
         </div>
       </div>
-     
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+      <!-- Load d3.js and c3.js -->
+      <script src="c3.min.js"></script>
+      <script src="d3.v5.min.js"></script>
+      <script src="jquery-3.6.4.min.js"></script>
 </body>
 <script>
     var  timesList = new Array();;
@@ -118,10 +198,26 @@
     counter.style.visibility = "hidden"
     var inputSeconds = document.querySelector('#inputSeconds');
     inputSeconds.value = seconds
+    
+    
     var settingsModel = new bootstrap.Modal(document.getElementById('settingsModal'), {
         keyboard: false
     })
-      
+    
+      function confirmPrompt(msg, callback){
+        var promt = document.querySelector('#confirmModalMessage')
+        promt.innerHTML = msg
+        var callbackYesButton = document.querySelector('#confirmModalYes')
+        callbackYesButton.setAttribute("onclick",callback)
+        var confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
+        keyboard: false
+    })
+    confirmModal.show()
+        
+      }
+      function resetGame(){
+        window.location.reload(true);
+      }
     function saveSettings(){
         seconds = inputSeconds.value
         
@@ -144,20 +240,58 @@
         navLogo.innerHTML=seconds + " Seconds";
     }
 function updateTable(){
-    scoreTableBody.innerHTML = ""
-    let tableString =""
-   
+    
+    scoreTableBody.innerHTML = "";
+    let tableString ="";
+    let chartOfftime = ['Off By'];
+    var chart = c3.generate({
+    bindto: '#chart',
+    data: {
+      columns: [ ['Off By'] ]
+    }
+
+});
+totalAttempts = 0
+minOff = 1000000000000
+maxOff = 0
+offSum = 0
+avgOff = 0
     for(score of timesList){
+        totalAttempts +=1
+        offSum += Number(score.offTime);
+        if(minOff > score.offTime){
+            minOff = score.offTime
+        }
+        if(maxOff < score.offTime){
+            maxOff = score.offTime
+        }
         tableString += "<tr class=\"table-"+score.color+"\"> \n"
         tableString += "<th >"+score.number+"</th>\n"
         tableString += "<td >"+score.target+"</td>\n"
         tableString += "<td >"+score.time+"</td>\n"
         tableString += "<td>"+score.offTime+"</td>\n"
         tableString += "</tr>\n"
+        chartOfftime.push(score.offTime);
     }
+    avgOff = (Number(offSum) / Number(totalAttempts)).toFixed(2);
+
+    document.querySelector('#avgOff').innerHTML = avgOff
+    document.querySelector('#minOff').innerHTML = minOff
+    document.querySelector('#maxOff').innerHTML = maxOff
+    document.querySelector('#totalAttempts').innerHTML = totalAttempts
+
+chart.load({
+        columns: [
+        chartOfftime
+        ]
+    });
+    chart.flush();
     console.log(tableString)
     scoreTableBody.innerHTML += tableString;
 }
+$('#scoreModal').on('shown.bs.modal', function () {
+  updateTable()
+})
     function changeState(evt){
         const d = new Date();
         let time = d.getTime()
@@ -176,7 +310,7 @@ function updateTable(){
             stopTime = time
             resTime = ((stopTime - startTime)/1000).toFixed(2)
             counter.innerHTML = resTime + " Seconds"
-            let offTime = Math.abs(resTime -Number(seconds)) 
+            let offTime = Math.abs(resTime -Number(seconds)).toFixed(2)
             let timeColor;
             if(offTime < .2){
                 timeColor = "primary"
@@ -210,8 +344,8 @@ function updateTable(){
                 "offTime":offTime,
                 "color":timeColor
             })
-            updateTable()
-            console.log(timesList)
+            let scoreModal
+            
         }
         
     
