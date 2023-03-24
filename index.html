@@ -88,7 +88,7 @@
                   <h5 class="modal-title" id="scoreModalLabel">Score</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="saveScoreModal">
                     <div class="accordion" id="scoreStatsAccordion">
                         <div class="accordion-item">
                           <h2 class="accordion-header" id="flush-headingOne">
@@ -152,6 +152,8 @@
           
                 </div>
                 <div class="modal-footer">
+                  <!-- savePdf(elementId) -->
+                  <button type="button" class="btn btn-primary" onclick="savePdf('saveScoreModal')">Save PDF</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </div>
@@ -186,6 +188,7 @@
       <script src="c3.min.js"></script>
       <script src="d3.v5.min.js"></script>
       <script src="jquery-3.6.4.min.js"></script>
+      <script src="jspdf.es.min.js"></script>
 </body>
 <script>
     var  timesList = new Array();;
@@ -204,6 +207,18 @@
         keyboard: false
     })
     
+    function savePdf(elementId){
+      var doc = new jsPDF();
+
+doc.html(document.querySelector('#'+elementId), {
+   callback: function (doc) {
+     doc.save();
+   },
+   x: 10,
+   y: 10
+});
+    }
+
       function confirmPrompt(msg, callback){
         var promt = document.querySelector('#confirmModalMessage')
         promt.innerHTML = msg
