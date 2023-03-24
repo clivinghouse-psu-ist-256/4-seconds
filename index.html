@@ -292,6 +292,10 @@ chart.load({
 $('#scoreModal').on('shown.bs.modal', function () {
   updateTable()
 })
+$('#scoreStatsAccordion').on('shown.bs.collapse', function () {
+  console.log('stats acc has been triggered')
+  updateTable()
+});
     function changeState(evt){
         const d = new Date();
         let time = d.getTime()
