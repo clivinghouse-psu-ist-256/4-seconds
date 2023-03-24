@@ -8,9 +8,7 @@ on:
 
 jobs:
   # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
+  deploy: 
       
     runs-on: portainer-home
     steps:
