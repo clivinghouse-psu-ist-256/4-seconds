@@ -10,7 +10,7 @@ jobs:
   # Single deploy job since we're just deploying
   deploy: 
     name: deploy to container      
-    runs-on: portainer-home
+    runs-on: self-hosted
     steps:
       
       - name: Upload artifact
