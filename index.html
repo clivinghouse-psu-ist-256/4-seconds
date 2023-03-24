@@ -10,7 +10,13 @@
 <link href="c3.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+<!-- Load d3.js and c3.js -->
+<script src="c3.min.js"></script>
+<script src="d3.v5.min.js"></script>
+<script src="jquery-3.6.4.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
 </head>
 <style>
@@ -182,15 +188,11 @@
           </div>
         </div>
       </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <!-- Load d3.js and c3.js -->
-      <script src="c3.min.js"></script>
-      <script src="d3.v5.min.js"></script>
-      <script src="jquery-3.6.4.min.js"></script>
-      <script src="jspdf.es.min.js"></script>
+     
 </body>
 <script>
+  window.jsPDF = window.jspdf.jsPDF
+  window.html2canvas = html2canvas;
     var  timesList = new Array();;
     let seconds = 4;
     let startTime=0;
