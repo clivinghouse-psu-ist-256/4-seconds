@@ -13,10 +13,10 @@ jobs:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v3
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        path: .
+#     - name: Upload a Build Artifact
+#       uses: actions/upload-artifact@v3.1.2
+#       with:
+#         path: .
     - name: copy to proper place
       run: "cp * ../../../"
       
