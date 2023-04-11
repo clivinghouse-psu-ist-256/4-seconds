@@ -286,14 +286,14 @@ chart.load({
         ]
     });
     chart.flush();
-    console.log(tableString)
+  
     scoreTableBody.innerHTML += tableString;
 }
 $('#scoreModal').on('shown.bs.modal', function () {
   updateTable()
 })
 $('#scoreStatsAccordion').on('shown.bs.collapse', function () {
-  console.log('stats acc has been triggered')
+
   updateTable()
 });
     function changeState(evt){
